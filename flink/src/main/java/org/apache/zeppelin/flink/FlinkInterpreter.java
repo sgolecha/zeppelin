@@ -122,9 +122,8 @@ public class FlinkInterpreter extends Interpreter {
             flinkIloop.scalaBenv();
     org.apache.flink.streaming.api.scala.StreamExecutionEnvironment senv =
             flinkIloop.scalaSenv();
-
-    senv.getConfig().disableSysoutLogging();
     benv.getConfig().disableSysoutLogging();
+    senv.getConfig().disableSysoutLogging();
 
     // prepare bindings
     imain.interpret("@transient var _binder = new java.util.HashMap[String, Object]()");
@@ -138,7 +137,6 @@ public class FlinkInterpreter extends Interpreter {
     imain.interpret("import org.apache.flink.api.scala._");
     imain.interpret("import org.apache.flink.api.common.functions._");
 
-
     binder.put("benv", benv);
     imain.interpret("val benv = _binder.get(\"benv\").asInstanceOf["
             + benv.getClass().getName() + "]");
@@ -146,7 +144,6 @@ public class FlinkInterpreter extends Interpreter {
     binder.put("senv", senv);
     imain.interpret("val senv = _binder.get(\"senv\").asInstanceOf["
             + senv.getClass().getName() + "]");
-
   }
 
   private boolean localMode() {
